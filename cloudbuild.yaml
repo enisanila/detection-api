@@ -1,0 +1,22 @@
+steps:
+  # Docker Build
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+            'build',
+            '-t',
+            'us-central1-docker.pkg.dev/AlphaKids/repo/static:${SHORT_SHA}',
+            '-t',
+            'us-central1-docker.pkg.dev/AlphaKids/repo/static:latest',
+            '--cache-from',
+            'us-central1-docker.pkg.dev/AlphaKids/repo/static:latest',
+            '.'
+          ]
+
+  # Docker push to Google Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push',  'us-central1-docker.pkg.dev/AlphaKids/repo/static:${SHORT_SHA}']
+
+# Store images in Google Artifact Registry 
+images:
+  - us-central1-docker.pkg.dev/AlphaKids/repo/static:${SHORT_SHA}
+  - us-central1-docker.pkg.dev/AlphaKids/repo/static:latest
