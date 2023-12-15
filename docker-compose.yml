@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  budayai:
+    container_name: predictimage
+    image: enisanilaa/predictimage
+    ports:
+      - "5000:5000"
+    build:
+      context: .
+      dockerfile: Dockerfile

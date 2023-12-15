@@ -6,10 +6,15 @@ ENV APP_HOME /app
 
 WORKDIR $APP_HOME
 
-RUN pip install gunicorn
-
 COPY . ./
 
 RUN pip install -r requirements.txt
 
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app 
+# Set env variables for Cloud Run
+ENV PORT 5000
+ENV HOST 0.0.0.0
+
+# Open port 5000
+EXPOSE 5000:5000
+# Run flask app
+CMD ["python","app.py", "gunicorn"]
